@@ -10,7 +10,6 @@
 #include <utils/String8.h>
 #include <binder/IInterface.h>
 #include <binder/Parcel.h>
-#include <system/audio.h>
 
 #define HELLO_SVR_CMD_SAYHELLO     0
 #define HELLO_SVR_CMD_SAYHELLO_TO  1
@@ -38,7 +37,7 @@ public:
 	virtual int sayhello_to(const char *name);
 
 };
-
+}
 
 #endif
 
