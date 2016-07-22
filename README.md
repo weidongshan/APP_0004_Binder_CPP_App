@@ -16,11 +16,11 @@ test:
 ---
 ####a. rebuid zImage to support NFS  
 make menuconfig  
-<*>   NFS client support                                                        | |  
-[*]     NFS client support for NFS version 3                                    | |  
-[*]       NFS client support for the NFSv3 ACL protocol extension               | |  
-[*]     NFS client support for NFS version 4                                    | |  
-[*]       NFS client support for NFSv4.1 (EXPERIMENTAL)   
+<\*>   NFS client support                                                        | |  
+[\*]     NFS client support for NFS version 3                                    | |  
+[\*]       NFS client support for the NFSv3 ACL protocol extension               | |  
+[\*]     NFS client support for NFS version 4                                    | |  
+[\*]       NFS client support for NFSv4.1 (EXPERIMENTAL)   
   
     
 make zImage, use zImage to boot the board  
