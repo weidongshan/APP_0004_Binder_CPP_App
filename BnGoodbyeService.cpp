@@ -17,7 +17,8 @@ status_t BnGoodbyeService::onTransact( uint32_t code,
 
     switch (code) {
         case GOODBYE_SVR_CMD_SAYGOODBYE: {
-			saygoodbye();
+	    saygoodbye();
+            reply->writeInt32(0);  /* no exception */
             return NO_ERROR;
         } break;
 		
@@ -25,12 +26,15 @@ status_t BnGoodbyeService::onTransact( uint32_t code,
 
 			/* 从data中取出参数 */
 			int32_t policy =  data.readInt32();
+			String16 name16_tmp = data.readString16(); /* IGoodbyeService */
+			
 			String16 name16 = data.readString16();
 			String8 name8(name16);
 
 			int cnt = saygoodbye_to(name8.string());
 
 			/* 把返回值写入reply传回去 */
+			reply->writeInt32(0);  /* no exception */
 			reply->writeInt32(cnt);
 			
             return NO_ERROR;
@@ -43,14 +47,14 @@ status_t BnGoodbyeService::onTransact( uint32_t code,
 void BnGoodbyeService::saygoodbye(void)
 {
 	static int cnt = 0;
-	ALOGI("say goodbye : %d\n", cnt++);
+	ALOGI("say goodbye : %d\n", ++cnt);
 
 }
 
 int BnGoodbyeService::saygoodbye_to(const char *name)
 {
 	static int cnt = 0;
-	ALOGI("say goodbye to %s : %d\n", name, cnt++);
+	ALOGI("say goodbye to %s : %d\n", name, ++cnt);
 	return cnt;
 }
 

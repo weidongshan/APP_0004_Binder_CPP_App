@@ -11,8 +11,8 @@
 #include <binder/IInterface.h>
 #include <binder/Parcel.h>
 
-#define GOODBYE_SVR_CMD_SAYGOODBYE     0
-#define GOODBYE_SVR_CMD_SAYGOODBYE_TO  1
+#define GOODBYE_SVR_CMD_SAYGOODBYE     1
+#define GOODBYE_SVR_CMD_SAYGOODBYE_TO  2
 
 
 namespace android {

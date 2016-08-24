@@ -19,6 +19,7 @@ public:
 
         Parcel data, reply;
         data.writeInt32(0);
+		data.writeString16(String16("IHelloService"));
 
         remote()->transact(HELLO_SVR_CMD_SAYHELLO, data, &reply);
 	}
@@ -26,15 +27,22 @@ public:
 	int sayhello_to(const char *name)
 	{
 		/* 构造/发送数据 */
-        Parcel data, reply;
+		Parcel data, reply;
+		int exception;
 
-        data.writeInt32(0);
-        data.writeString16(String16(name));
+		data.writeInt32(0);
+		data.writeString16(String16("IHelloService"));
 
-        remote()->transact(HELLO_SVR_CMD_SAYHELLO_TO, data, &reply);
+		data.writeString16(String16(name));
 
-		return reply.readInt32();
-	}
+		remote()->transact(HELLO_SVR_CMD_SAYHELLO_TO, data, &reply);
+
+		exception = reply.readInt32();
+		if (exception)
+		    return -1;
+		else
+		    return reply.readInt32();
+		}
 
 };
 
