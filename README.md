@@ -40,3 +40,12 @@ logcat HelloService:* GoodbyeService:* TestService:* *:S &
 ./test_client goodbye  
 ./test_client goodbye wds  
   
+####d. v5: use binder to transfer file descriptor  
+test:  
+su  
+busybox mount -t nfs -o nolock,vers=2 192.168.1.123:/work/nfs_root /mnt  
+logcat HelloService:* GoodbyeService:* TestService:* *:S &  
+echo asfsdfasdf > 1.txt  
+./test_server 1.txt &  
+./test_client readfile  
+  

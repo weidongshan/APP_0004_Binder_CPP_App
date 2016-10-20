@@ -12,6 +12,9 @@
 #include <binder/IServiceManager.h>
 #include <cutils/properties.h>
 #include <utils/Log.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include "IHelloService.h"
 #include "IGoodbyeService.h"
@@ -19,8 +22,15 @@
 
 using namespace android;
 
-int main(void)
+/* usage : test_server <file> */
+int main(int argc, char **argv)
 {
+
+	int fd;
+
+	if (argc == 2)
+		fd = open(argv[1], O_RDWR);
+
 	/* addService */
 
 	/* while(1){ read data, 解析数据, 调用服务函数 } */
@@ -31,7 +41,7 @@ int main(void)
 	/* 获得BpServiceManager */
 	sp<IServiceManager> sm = defaultServiceManager();
 
-	sm->addService(String16("hello"), new BnHelloService());
+	sm->addService(String16("hello"), new BnHelloService(fd));
 	sm->addService(String16("goodbye"), new BnGoodbyeService());
 
 	/* 循环体 */

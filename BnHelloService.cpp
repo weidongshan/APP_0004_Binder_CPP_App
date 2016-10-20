@@ -8,6 +8,15 @@
 
 namespace android {
 
+BnHelloService::BnHelloService()
+{
+}
+
+BnHelloService::BnHelloService(int fd)
+{
+	this->fd = fd;
+}
+
 status_t BnHelloService::onTransact( uint32_t code,
                                 const Parcel& data,
                                 Parcel* reply,
@@ -39,6 +48,20 @@ status_t BnHelloService::onTransact( uint32_t code,
 			
             return NO_ERROR;
         } break;
+
+        case HELLO_SVR_CMD_GET_FD: {
+			int fd = this->get_fd();
+			reply->writeInt32(0);  /* no exception */
+
+			/* ²Î¿¼:
+			 * frameworks\base\core\jni\android_view_InputChannel.cpp
+			 * android_view_InputChannel_nativeWriteToParcel
+			 */
+			reply->writeDupFileDescriptor(fd);
+            return NO_ERROR;
+        } break;
+
+		
         default:
             return BBinder::onTransact(code, data, reply, flags);
     }
@@ -57,6 +80,12 @@ int BnHelloService::sayhello_to(const char *name)
 	ALOGI("say hello to %s : %d\n", name, ++cnt);
 	return cnt;
 }
+
+int BnHelloService::get_fd(void)
+{
+	return fd;
+}
+
 
 }
 
