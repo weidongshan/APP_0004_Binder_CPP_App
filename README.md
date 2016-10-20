@@ -48,4 +48,11 @@ logcat HelloService:* GoodbyeService:* TestService:* *:S &
 echo asfsdfasdf > 1.txt  
 ./test_server 1.txt &  
 ./test_client readfile  
-  
+
+####e. v6: use binder and socketpair for bidirectional transfer  
+test:  
+su  
+busybox mount -t nfs -o nolock,vers=2 192.168.1.123:/work/nfs_root /mnt  
+logcat HelloService:* GoodbyeService:* TestService:* *:S &  
+./test_server&  
+./test_client readfile    

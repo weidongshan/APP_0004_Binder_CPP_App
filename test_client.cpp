@@ -89,13 +89,23 @@ int main(int argc, char **argv)
 
 		ALOGI("client call get_fd = %d", fd);
 
-		//while (1) sleep(10);
-		lseek(fd, 0, SEEK_SET);
-
 		char buf[500];
-		int len = read(fd, buf, 500);
-		buf[len] = '\0';
-		ALOGI("client read file: %s", buf);
+		int len;
+		int cnt = 0;
+		
+		while (1)
+		{
+			/* 向 test_server 进程发出: Hello, test_server	*/
+			len = sprintf(buf, "Hello, test_server, cnt = %d", cnt++);
+			write(fd, buf, len);
+		
+			/* 读取数据(test_server进程发回的数据) */
+			len = read(fd, buf, 500);
+			buf[len] = '\0';
+			ALOGI("%s\n", buf);
+		
+			sleep(5);
+		}
 	}
 	else
 	{
